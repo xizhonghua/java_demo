@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.commons.math3.stat.regression.RegressionResults;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
-import jdistlib.util.*;
 import java.util.Arrays;;
 
 public abstract class DistributionBase implements IDistribution {
