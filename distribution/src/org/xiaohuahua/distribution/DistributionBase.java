@@ -33,20 +33,25 @@ public abstract class DistributionBase implements IDistribution {
 	@Override
 	public FitResult fit(double[] samples, double r_squared_threshold) {
 		this.preproses(samples);
-		this.fitDist();
+		
+		this.estimateParameters();
+		
+		for(int i=0;i<this.sample_size;++i)			
+			q[i] = this.getQuantile(p[i]);
 
 		double r_squared = computeRSquared(this.samples, this.q);
 
 		FitResult result = new FitResult(this.getClass().getSimpleName(), r_squared >= r_squared_threshold, r_squared,
 				parameters_);
 
-		System.out.println(this.toString());
-		System.out.println(result.toString());
+//		System.out.println(this.toString());
+//		System.out.println(result.toString());
 
 		return result;
 	}
 
-	protected abstract void fitDist();
+	protected abstract void estimateParameters();
+	protected abstract double getQuantile(double q);
 
 	protected double mean() {
 		double sum = 0.0;
