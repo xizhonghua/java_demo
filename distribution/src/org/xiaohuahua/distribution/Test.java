@@ -9,42 +9,42 @@ import jdistlib.rng.MersenneTwister;
 import jdistlib.rng.RandomEngine;
 
 public class Test {
-	
-	public static void printResult(String expected, List<FitResult> actuals)
-	{
+
+	public static void printResult(String expected, List<FitResult> actuals) {
 		System.out.print("Expected = " + expected + " Actuals = [");
 		boolean first = true;
-		for(FitResult fit : actuals) {
-			if(!first) System.out.println(", ");
+		for (FitResult fit : actuals) {
+			if (!first)
+				System.out.println(", ");
 			first = false;
 			System.out.print(fit.toString());
-			
+
 		}
 		System.out.println("]");
 	}
-	
+
 	public static void main(String[] args) {
 		RandomEngine re = new MersenneTwister();
 		re.setSeed(new Date().getTime());
+
+		double[] normalSamples = Normal.random(500, 10.0, 2.0, re);
+
+		List<FitResult> results = WhichDistribution.whichDistribution(normalSamples, 0.95);
+
+		printResult("NormalDist", results);	
 		
+
 		double[] expSamples = Exponential.random(500, 1, re);
-		
-		List<FitResult> results = WhichDistribution.whichDistribution(expSamples, 0.95);
-		
+
+		results = WhichDistribution.whichDistribution(expSamples, 0.95);
+
 		printResult("ExpDist", results);
-		
-		double[] normalSamples = Normal.random(500, 1.0, 2.0, re);
-		
-		results = WhichDistribution.whichDistribution(normalSamples, 0.95);
-		
-		printResult("NormalDist", results);
-		
-		
+
 		double[] logNormalSamples = LogNormal.random(500, 0.0, 1.0, re);
-		
-		results = WhichDistribution.whichDistribution(logNormalSamples, 0.90);
-		
+
+		results = WhichDistribution.whichDistribution(logNormalSamples, 0.95);
+
 		printResult("LogNormalDist", results);
-		
+
 	}
 }

@@ -6,6 +6,10 @@ import java.util.Map;
 import org.apache.commons.math3.stat.regression.RegressionResults;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
+import jdistlib.ChiSquare;
+import jdistlib.disttest.DistributionTest;
+import jdistlib.generic.GenericDistribution;
+
 import java.util.Arrays;;
 
 public abstract class DistributionBase implements IDistribution {
@@ -30,27 +34,40 @@ public abstract class DistributionBase implements IDistribution {
 	}
 
 	@Override
-	public FitResult fit(double[] samples, double r_squared_threshold) {
+	public FitResult fit(double[] samples, double confidence_level) {
 		this.preproses(samples);
-		
+
 		this.estimateParameters();
-		
-		for(int i=0;i<this.sample_size;++i)			
-			q[i] = this.getQuantile(p[i]);
 
-		double r_squared = computeRSquared(this.samples, this.q);
+		// for(int i=0;i<this.sample_size;++i)
+		// {
+		// q[i] = this.getQuantile(p[i]);
+		// }
 
-		FitResult result = new FitResult(this.getClass().getSimpleName(), r_squared >= r_squared_threshold, r_squared,
+		double p_val = 0;
+
+		if (dist_ != null) {
+			double[] ps = DistributionTest.kolmogorov_smirnov_test(this.samples, dist_, false);
+
+			p_val = ps[1];
+		}
+
+		// double r_squared = computeRSquared(this.samples, this.q);
+
+		FitResult result = new FitResult(this.getClass().getSimpleName(), p_val >= 1 - confidence_level, p_val,
 				parameters_);
 
-//		System.out.println(this.toString());
-//		System.out.println(result.toString());
+		// System.out.println(this.toString());
+		// System.out.println(result.toString());
 
 		return result;
 	}
 
 	protected abstract void estimateParameters();
+
 	protected abstract double getQuantile(double q);
+
+	protected abstract double[] getRandomVals(int n);
 
 	protected double mean() {
 		double sum = 0.0;
@@ -90,6 +107,7 @@ public abstract class DistributionBase implements IDistribution {
 	protected double[] p;
 	protected double[] q;
 	protected int sample_size;
+	protected GenericDistribution dist_;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

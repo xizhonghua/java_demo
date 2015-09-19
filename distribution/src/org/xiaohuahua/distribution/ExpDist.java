@@ -12,15 +12,20 @@ public class ExpDist extends DistributionBase implements IDistribution {
 
 		this.lambda_ = 1.0 / this.sample_mean;
 		this.parameters_.put("lambda", this.lambda_);
-		this.exp_ = new Exponential(lambda_);
+		this.dist_ = new Exponential(lambda_);
 	}
 
 	@Override
 	protected double getQuantile(double q) {
-		return this.exp_.quantile(q);
+		return this.dist_.quantile(q);
 	}
-
-	private Exponential exp_;
+	
+	@Override
+	protected double[] getRandomVals(int n)
+	{
+		return dist_.random(n);
+	}
+	
 	private double lambda_;
 
 }

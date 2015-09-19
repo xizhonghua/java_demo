@@ -5,17 +5,8 @@ import java.util.List;
 
 public class WhichDistribution {
 
-	public static List<FitResult> whichDistribution(double[] samples, double r_squared_threshold) {
+	public static List<FitResult> whichDistribution(double[] samples, double confidence_level) {
 		List<IDistribution> dists = new ArrayList<>();
-		
-//		
-//		BeanDefinitionRegistry bdr = new SimpleBeanDefinitionRegistry();
-//		ClassPathBeanDefinitionScanner s = new ClassPathBeanDefinitionScanner(bdr);
-//
-//		TypeFilter tf = new AssignableTypeFilter(CLASS_YOU_WANT.class);
-//		s.addIncludeFilter(tf);
-//		s.scan("org.xiaohuahua.distribution");       
-//		String[] beans = bdr.getBeanDefinitionNames();
 
 		dists.add(new ExpDist());
 		dists.add(new NormalDist());
@@ -24,7 +15,7 @@ public class WhichDistribution {
 		List<FitResult> results = new ArrayList<>();
 
 		for (IDistribution dist : dists) {
-			FitResult r = dist.fit(samples, r_squared_threshold);
+			FitResult r = dist.fit(samples, confidence_level);
 			if (r.getFitted()) {
 				results.add(r);
 			}

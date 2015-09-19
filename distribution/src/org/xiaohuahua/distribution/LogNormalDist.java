@@ -14,18 +14,17 @@ public class LogNormalDist extends DistributionBase implements IDistribution {
 				return;
 			}
 		}
-		
+
 		double[] logedSamples = this.samples.clone();
-		for(int i=0;i<logedSamples.length;++i)
+		for (int i = 0; i < logedSamples.length; ++i)
 			logedSamples[i] = Math.log(logedSamples[i]);
 
 		NormalDist normalDist = new NormalDist();
 		FitResult r = normalDist.fit(logedSamples, 1.0);
-		
-		double sigma = r.getParameters().get("sigma"); 
+
+		double sigma = r.getParameters().get("sigma");
 		double mu = r.getParameters().get("mu");
-		
-		
+
 		this.shape_ = sigma;
 		this.scale_ = Math.exp(mu);
 		this.loc_ = 0.0;
@@ -34,20 +33,27 @@ public class LogNormalDist extends DistributionBase implements IDistribution {
 		this.parameters_.put("scale", this.scale_);
 		this.parameters_.put("loc", this.loc_);
 
-//		double mean = Math.exp(this.scale_ + this.shape_ * this.shape_ / 2);
-//		double variance = (Math.exp(this.shape_ * this.shape_) - 1) * mean * mean;
+		// double mean = Math.exp(this.scale_ + this.shape_ * this.shape_ / 2);
+		// double variance = (Math.exp(this.shape_ * this.shape_) - 1) * mean *
+		// mean;
 
-		this.logNormal = new LogNormal(mu, sigma);
+		this.dist_ = new LogNormal(mu, sigma);
 	}
 
 	@Override
 	protected double getQuantile(double q) {
 		if (!valid_)
 			return 0;
-		return logNormal.quantile(q);
+		return dist_.quantile(q);
 	}
 
-	private LogNormal logNormal;
+	@Override
+	protected double[] getRandomVals(int n) {
+		if (!valid_)
+			return new double[n];
+		return dist_.random(n);
+	}
+	
 	private boolean valid_;
 
 	private double shape_;

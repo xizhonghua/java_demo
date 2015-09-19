@@ -6,14 +6,14 @@ public class FitResult {
 	
 	private String distName_;
 	private boolean fitted_;
-	private double r_squared_;
+	private double p_val_;
 	private Map<String, Double> parameters_;
 	
-	public FitResult(String distName,  boolean fitted, double r_squared, Map<String, Double> parameters)
+	public FitResult(String distName,  boolean fitted, double p_val, Map<String, Double> parameters)
 	{
 		this.distName_ = distName;
 		this.fitted_ = fitted;
-		this.r_squared_ = r_squared;
+		this.p_val_ = p_val;
 		this.parameters_ = parameters;
 	}
 	
@@ -25,8 +25,8 @@ public class FitResult {
 		 return fitted_;
 	}
 	
-	public double getRSquared() {
-		return r_squared_;
+	public double getPValue() {
+		return p_val_;
 	}
 	
 	public Map<String, Double> getParameters() {
@@ -34,7 +34,7 @@ public class FitResult {
 	}
 	
 	public String toString() {
-		String str = "{ name = " + this.getDistName() + ", r^2 = " + this.r_squared_ + ", parameters = {";
+		String str = "{ name = " + this.getDistName() + ", p_val = " + this.p_val_ + ", parameters = {";
 		
 		Map<String, Double> parameters = this.getParameters(); 
 		
