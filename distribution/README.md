@@ -12,8 +12,8 @@ Supported distributions:
 #### Usage:
 
 ```java
-double[] samples = get_your_samples()
-double confidence_level = 0.95
+double[] samples = get_your_samples();
+double confidence_level = 0.95;
 List<FitResult> results = WhichDistribution.whichDistribution(samples, confidence_level);
 ```
 
