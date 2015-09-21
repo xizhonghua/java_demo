@@ -11,6 +11,8 @@ public class WhichDistribution {
 		dists.add(new ExpDist());
 		dists.add(new NormalDist());
 		dists.add(new LogNormalDist());
+		dists.add(new UniformDist());
+		dists.add(new PoissonDist());
 
 		List<FitResult> results = new ArrayList<>();
 

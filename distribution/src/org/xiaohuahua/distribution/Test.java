@@ -1,10 +1,13 @@
 package org.xiaohuahua.distribution;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import jdistlib.Exponential;
 import jdistlib.LogNormal;
 import jdistlib.Normal;
+import jdistlib.Poisson;
+import jdistlib.Uniform;
 import jdistlib.rng.MersenneTwister;
 import jdistlib.rng.RandomEngine;
 
@@ -21,30 +24,43 @@ public class Test {
 
 		}
 		System.out.println("]");
-	}
+	}	
 
 	public static void main(String[] args) {
 		RandomEngine re = new MersenneTwister();
 		re.setSeed(new Date().getTime());
+		
+		double[] samples;
+		
+		samples = Normal.random(500, 10.0, 2.0, re);
 
-		double[] normalSamples = Normal.random(500, 10.0, 2.0, re);
-
-		List<FitResult> results = WhichDistribution.whichDistribution(normalSamples, 0.95);
+		List<FitResult> results = WhichDistribution.whichDistribution(samples, 0.95);
 
 		printResult("NormalDist", results);	
 		
 
-		double[] expSamples = Exponential.random(500, 1, re);
+		samples = Exponential.random(500, 1, re);
 
-		results = WhichDistribution.whichDistribution(expSamples, 0.95);
+		results = WhichDistribution.whichDistribution(samples, 0.95);
 
 		printResult("ExpDist", results);
 
-		double[] logNormalSamples = LogNormal.random(500, 0.0, 1.0, re);
+		samples = LogNormal.random(500, 0.0, 1.0, re);
 
-		results = WhichDistribution.whichDistribution(logNormalSamples, 0.95);
+		results = WhichDistribution.whichDistribution(samples, 0.95);
 
 		printResult("LogNormalDist", results);
+		
+		samples = Uniform.random(500, -10, 20, re);
+		
+		results = WhichDistribution.whichDistribution(samples, 0.95);
 
+		printResult("UnifromDist", results);
+		
+		samples = Poisson.random(500, 1000, re);
+		
+		results = WhichDistribution.whichDistribution(samples, 0.95);
+
+		printResult("PoissonDist", results);
 	}
 }

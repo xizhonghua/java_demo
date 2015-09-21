@@ -41,17 +41,10 @@ public class LogNormalDist extends DistributionBase implements IDistribution {
 	}
 
 	@Override
-	protected double getQuantile(double q) {
-		if (!valid_)
-			return 0;
-		return dist_.quantile(q);
-	}
-
-	@Override
 	protected double[] getRandomVals(int n) {
 		if (!valid_)
 			return new double[n];
-		return dist_.random(n);
+		return super.getRandomVals(n);
 	}
 	
 	private boolean valid_;

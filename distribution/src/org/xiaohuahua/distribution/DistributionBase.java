@@ -63,11 +63,11 @@ public abstract class DistributionBase implements IDistribution {
 		return result;
 	}
 
-	protected abstract void estimateParameters();
+	protected abstract void estimateParameters();	
 
-	protected abstract double getQuantile(double q);
-
-	protected abstract double[] getRandomVals(int n);
+	protected double[] getRandomVals(int n) {
+		return dist_.random(n);
+	}
 
 	protected double mean() {
 		double sum = 0.0;
@@ -109,9 +109,13 @@ public abstract class DistributionBase implements IDistribution {
 	protected int sample_size;
 	protected GenericDistribution dist_;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+	public static void printSamples(double[] samples) {
+		Arrays.sort(samples);
+		System.out.print("Samples = [");
+		for(double sample : samples)
+			System.out.print(" " + sample);
+		System.out.println("]");
 	}
 
 }

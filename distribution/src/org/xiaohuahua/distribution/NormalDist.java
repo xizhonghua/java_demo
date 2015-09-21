@@ -13,17 +13,7 @@ public class NormalDist extends DistributionBase implements IDistribution {
 		this.parameters_.put("sigma", this.sigma_);
 		
 		this.dist_ = new Normal(this.mu_, this.sigma_);
-	}
-	
-	@Override
-	protected double getQuantile(double q) {
-		return dist_.quantile(q);
-	}
-	
-	@Override
-	protected double[] getRandomVals(int n)
-	{
-		return dist_.random(n);
+				
 	}
 		
 	private double mu_;
