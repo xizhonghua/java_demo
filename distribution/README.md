@@ -1,5 +1,14 @@
 ## Distribution Estimation
 
+Given sample points, try to fit the samples to a distribution and estimate the parameters of the distribution. 
+
+Supported distributions:
+* Uniform
+* Normal
+* LogNormal
+* Exponential
+* Poisson
+
 #### Usage:
 
 ```java
@@ -17,7 +26,7 @@ double[] samples = Normal.random(500, 10.0, 2.0, re);
 List<FitResult> results = WhichDistribution.whichDistribution(samples, 0.95);
 ```
 
-Output
+#### Output
 ```
 [
   {
