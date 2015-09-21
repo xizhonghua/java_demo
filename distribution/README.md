@@ -25,8 +25,6 @@ re.setSeed(new Date().getTime());
 double[] samples = Normal.random(500, 10.0, 2.0, re);
 List<FitResult> results = WhichDistribution.whichDistribution(samples, 0.95);
 ```
-
-#### Output
 ```
 [
   {
@@ -38,3 +36,6 @@ List<FitResult> results = WhichDistribution.whichDistribution(samples, 0.95);
     }
 ]
 ```
+
+#### Dependencies
+* JDistlib http://jdistlib.sourceforge.net/
