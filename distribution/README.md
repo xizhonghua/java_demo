@@ -39,5 +39,12 @@ List<FitResult> results = WhichDistribution.whichDistribution(samples, 0.95);
 ]
 ```
 
+#### Implementaion
+1. For each distrition D in the pool, estimate the parameters from samples
+2. Draw the same size of random variables from D with estimated parameters
+3. Perform Kolmogorov Smirnov Test on two sets of samples
+4. Compare p value and the given confidence level
+
+
 #### Dependencies
 * JDistlib http://jdistlib.sourceforge.net/
