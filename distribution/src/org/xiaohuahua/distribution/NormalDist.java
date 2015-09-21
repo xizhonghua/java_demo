@@ -15,6 +15,11 @@ public class NormalDist extends DistributionBase implements IDistribution {
 		this.dist_ = new Normal(this.mu_, this.sigma_);
 				
 	}
+	
+	@Override
+	protected DistributionType getType() {
+		return DistributionType.Normal;
+	}
 		
 	private double mu_;
 	private double sigma_;

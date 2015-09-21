@@ -47,6 +47,11 @@ public class LogNormalDist extends DistributionBase implements IDistribution {
 		return super.getRandomVals(n);
 	}
 	
+	@Override
+	protected DistributionType getType() {
+		return DistributionType.LogNormal;
+	}
+	
 	private boolean valid_;
 
 	private double shape_;

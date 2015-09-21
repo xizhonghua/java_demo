@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.commons.math3.stat.regression.RegressionResults;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
-import jdistlib.ChiSquare;
 import jdistlib.disttest.DistributionTest;
 import jdistlib.generic.GenericDistribution;
 
@@ -39,11 +38,6 @@ public abstract class DistributionBase implements IDistribution {
 
 		this.estimateParameters();
 
-		// for(int i=0;i<this.sample_size;++i)
-		// {
-		// q[i] = this.getQuantile(p[i]);
-		// }
-
 		double p_val = 0;
 
 		if (dist_ != null) {
@@ -52,18 +46,14 @@ public abstract class DistributionBase implements IDistribution {
 			p_val = ps[1];
 		}
 
-		// double r_squared = computeRSquared(this.samples, this.q);
-
-		FitResult result = new FitResult(this.getClass().getSimpleName(), p_val >= 1 - confidence_level, p_val,
-				parameters_);
-
-		// System.out.println(this.toString());
-		// System.out.println(result.toString());
+		FitResult result = new FitResult(this.getType(), p_val >= 1 - confidence_level, p_val, parameters_);
 
 		return result;
 	}
 
-	protected abstract void estimateParameters();	
+	protected abstract void estimateParameters();
+
+	protected abstract DistributionType getType();
 
 	protected double[] getRandomVals(int n) {
 		return dist_.random(n);
@@ -109,11 +99,10 @@ public abstract class DistributionBase implements IDistribution {
 	protected int sample_size;
 	protected GenericDistribution dist_;
 
-
 	public static void printSamples(double[] samples) {
 		Arrays.sort(samples);
 		System.out.print("Samples = [");
-		for(double sample : samples)
+		for (double sample : samples)
 			System.out.print(" " + sample);
 		System.out.println("]");
 	}

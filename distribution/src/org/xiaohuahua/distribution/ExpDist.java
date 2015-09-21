@@ -15,6 +15,11 @@ public class ExpDist extends DistributionBase implements IDistribution {
 		this.dist_ = new Exponential(lambda_);
 	}
 	
+	@Override
+	protected DistributionType getType() {
+		return DistributionType.Exponential;
+	}
+	
 	private double lambda_;
 
 }

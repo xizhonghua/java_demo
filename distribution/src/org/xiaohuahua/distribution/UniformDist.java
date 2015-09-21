@@ -5,14 +5,19 @@ import jdistlib.Uniform;
 public class UniformDist extends DistributionBase implements IDistribution {
 
 	@Override
-	protected void estimateParameters() {		
+	protected void estimateParameters() {
 		this.a_ = this.sample_mean - Math.sqrt(3) * this.sample_stddev;
 		this.b_ = this.sample_mean + Math.sqrt(3) * this.sample_stddev;
-		
+
 		this.parameters_.put("a", this.a_);
 		this.parameters_.put("b", this.b_);
-		
+
 		this.dist_ = new Uniform(this.a_, this.b_);
+	}
+
+	@Override
+	protected DistributionType getType() {
+		return DistributionType.Uniform;
 	}
 
 	// Parameters
