@@ -9,6 +9,8 @@ Supported distributions:
 * Exponential
 * Poisson
 
+See [DistributionType.java](src/org/xiaohuahua/distribution/DistributionType.java) for the complete list
+
 #### Usage:
 
 ```java
@@ -28,7 +30,7 @@ List<FitResult> results = WhichDistribution.whichDistribution(samples, 0.95);
 // Output
 [
   {
-    name = NormalDist, 
+    type = Normal, 
     p_val = 0.33620107417241696, 
     parameters = {
       sigma:2.1015778878687157, 
