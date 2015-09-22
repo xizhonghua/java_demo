@@ -2,7 +2,7 @@ package org.xiaohuahua.distribution;
 
 import jdistlib.Uniform;
 
-public class UniformDist extends DistributionBase implements IDistribution {
+public class UniformDist extends ContinusDistributionBase {
 
 	@Override
 	protected void estimateParameters() {

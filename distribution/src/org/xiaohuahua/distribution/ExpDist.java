@@ -2,7 +2,7 @@ package org.xiaohuahua.distribution;
 
 import jdistlib.Exponential;
 
-public class ExpDist extends DistributionBase implements IDistribution {
+public class ExpDist extends ContinusDistributionBase {
 
 	public ExpDist() {
 	}

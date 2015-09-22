@@ -2,7 +2,7 @@ package org.xiaohuahua.distribution;
 
 import jdistlib.Poisson;
 
-public class PoissonDist extends DistributionBase implements IDistribution {
+public class PoissonDist extends DiscreteDistributionBase {
 
 	@Override
 	protected void estimateParameters() {

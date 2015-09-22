@@ -56,9 +56,9 @@ public class Test {
 
 		printResult("UnifromDist", results);
 		
-		samples = Poisson.random(500, 1000, re);
+		samples = Poisson.random(500, 2, re);
 		
-		results = WhichDistribution.whichDistribution(samples, 0.95);
+		results = WhichDistribution.whichDistribution(samples, 1.0);
 
 		printResult("PoissonDist", results);
 	}

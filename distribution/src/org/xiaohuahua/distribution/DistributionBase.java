@@ -3,6 +3,8 @@ package org.xiaohuahua.distribution;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.math3.exception.ZeroException;
+import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.stat.regression.RegressionResults;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
@@ -16,6 +18,12 @@ public abstract class DistributionBase implements IDistribution {
 	public DistributionBase() {
 
 	}
+
+	protected abstract void estimateParameters();
+
+	protected abstract DistributionType getType();
+
+	public abstract boolean isContinous();
 
 	protected void preproses(double samples[]) {
 		this.samples = samples.clone();
@@ -41,9 +49,12 @@ public abstract class DistributionBase implements IDistribution {
 		double p_val = 0;
 
 		if (dist_ != null) {
-			double[] ps = DistributionTest.kolmogorov_smirnov_test(this.samples, dist_, false);
 
-			p_val = ps[1];
+			if (this.isContinous()) {
+				p_val = this.fitContinous(this.samples, confidence_level);
+			} else {
+				p_val = this.fitDiscrete(this.samples, confidence_level);
+			}
 		}
 
 		FitResult result = new FitResult(this.getType(), p_val >= 1 - confidence_level, p_val, parameters_);
@@ -51,9 +62,41 @@ public abstract class DistributionBase implements IDistribution {
 		return result;
 	}
 
-	protected abstract void estimateParameters();
+	private double fitContinous(double[] samples, double confidence_level) {
+		double[] ps = DistributionTest.kolmogorov_smirnov_test(samples, this.dist_, false);
 
-	protected abstract DistributionType getType();
+		return ps[1];
+	}
+
+	private double fitDiscrete(double[] samples, double confidence_level) {
+		// number of estimated parameters
+		int c = this.parameters_.size();
+
+		// 6 ~ 16 bins
+		int bins = 6; //Math.min(16, Math.max(samples.length / 5, 5 + c));
+		System.out.println("bins = " + bins);
+
+		final int augment = 10;
+
+		double[] expected_samples = this.dist_.random(samples.length * augment);
+		long[] hist_O1 = Histogram.getHistrogram(samples, bins);
+		long[] hist_O2 = Histogram.getHistrogram(expected_samples, bins);
+
+		for (int i = 0; i < hist_O2.length; ++i) {
+			hist_O2[i] /= augment;
+
+			if (hist_O1[i] == 0 && hist_O2[i] == 0) {
+				hist_O1[i] = hist_O2[i] = 1; // hack...
+			}
+		}
+
+		ChiSquareTest test = new ChiSquareTest();
+
+		
+		double p_val = test.chiSquareTestDataSetsComparison(hist_O1, hist_O2);
+		return p_val;
+
+	}
 
 	protected double[] getRandomVals(int n) {
 		return dist_.random(n);
